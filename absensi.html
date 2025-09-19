@@ -34,7 +34,7 @@
       margin: auto;
     }
 
-    input, select {
+    input {
       width: 90%;
       padding: 10px;
       margin: 10px 0;
@@ -132,10 +132,10 @@
   </div>
 
   <script>
-    // Lokasi kantor BMKG (contoh Jakarta)
-    const officeLat = -6.200000;  
-    const officeLng = 106.816666;
-    const maxDistance = 0.2; // km (200 meter)
+    // Lokasi kantor (koordinat yang ditentukan)
+    const officeLat = -6.984818;  
+    const officeLng = 110.381142;
+    const maxDistance = 0.05; // km (50 meter)
 
     const btnAbsen = document.getElementById("btn-absen");
     const msg = document.getElementById("location-msg");
@@ -161,20 +161,20 @@
           const distance = getDistanceFromLatLonInKm(userLat, userLng, officeLat, officeLng);
 
           if (distance <= maxDistance) {
-            msg.textContent = "Anda berada di lokasi kantor. Silakan absen.";
+            msg.textContent = "✅ Anda berada di lokasi kantor. Silakan absen.";
             btnAbsen.disabled = false;
           } else {
-            msg.textContent = "Anda di luar area kantor! Absen tidak bisa dilakukan.";
+            msg.textContent = "❌ Anda di luar area kantor! (Jarak: " + Math.round(distance*1000) + " m)";
             btnAbsen.disabled = true;
           }
         },
         function() {
-          msg.textContent = "Tidak dapat mendeteksi lokasi.";
+          msg.textContent = "❌ Tidak dapat mendeteksi lokasi.";
           btnAbsen.disabled = true;
         }
       );
     } else {
-      msg.textContent = "Perangkat tidak mendukung GPS.";
+      msg.textContent = "❌ Perangkat tidak mendukung GPS.";
       btnAbsen.disabled = true;
     }
   </script>
