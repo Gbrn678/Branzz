@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Presensi PPNPN Lengkap</title>
+    <title>Sistem Presensi PPNPN</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -16,7 +16,7 @@
         body {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: 15px;
             color: #333;
             display: flex;
             flex-direction: column;
@@ -25,31 +25,31 @@
         /* Header Styles */
         .header {
             text-align: center;
-            padding: 20px;
+            padding: 15px 10px;
             color: white;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             position: relative;
         }
         
         .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
+            font-size: 1.8rem;
+            margin-bottom: 8px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
         
         .header p {
-            font-size: 1.2rem;
-            max-width: 600px;
+            font-size: 0.9rem;
+            max-width: 100%;
             margin: 0 auto;
-            line-height: 1.6;
+            line-height: 1.4;
         }
         
         .notification-bell {
             position: absolute;
-            top: 20px;
-            right: 20px;
+            top: 15px;
+            right: 15px;
             color: white;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             cursor: pointer;
         }
         
@@ -60,8 +60,8 @@
             background-color: #e74c3c;
             color: white;
             border-radius: 50%;
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -75,215 +75,71 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             width: 100%;
         }
         
-        .container {
+        /* Dashboard Styles */
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 100%;
+        }
+        
+        .dashboard-card {
             background-color: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            width: 100%;
-            max-width: 800px;
-            overflow: hidden;
-            margin-bottom: 30px;
-        }
-        
-        .container-header {
-            background: linear-gradient(135deg, #4a90e2 0%, #2b6cb0 100%);
-            color: white;
-            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px;
             text-align: center;
-            position: relative;
         }
         
-        .container-header h2 {
-            font-size: 1.5rem;
+        .dashboard-card h3 {
+            color: #4a5568;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #2b6cb0;
             margin-bottom: 5px;
         }
         
-        .content {
-            padding: 25px;
+        .stat-label {
+            color: #718096;
+            font-size: 0.8rem;
         }
         
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: #4a5568;
-        }
-        
-        .form-control {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-        }
-        
-        .form-control:focus {
-            border-color: #4a90e2;
-            outline: none;
-        }
-        
-        .form-control[readonly] {
-            background-color: #f7fafc;
-            color: #4a5568;
-        }
-        
-        .camera-section {
-            margin: 25px 0;
-            text-align: center;
-        }
-        
-        .camera-preview {
-            width: 100%;
-            max-width: 320px;
-            height: 240px;
-            background-color: #f7fafc;
-            border: 2px dashed #cbd5e0;
-            border-radius: 8px;
-            margin: 0 auto 15px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
-        
-        .camera-preview video, .camera-preview canvas {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .btn {
-            padding: 12px 20px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .btn-primary {
+        .today-status {
             background: linear-gradient(135deg, #4a90e2 0%, #2b6cb0 100%);
             color: white;
-        }
-        
-        .btn-primary:hover {
-            background: linear-gradient(135deg, #2b6cb0 0%, #4a90e2 100%);
-            transform: translateY(-2px);
-        }
-        
-        .btn-secondary {
-            background-color: #e2e8f0;
-            color: #4a5568;
-        }
-        
-        .btn-secondary:hover {
-            background-color: #cbd5e0;
-        }
-        
-        .btn-capture {
-            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
-            color: white;
-            margin-right: 10px;
-        }
-        
-        .btn-capture:hover {
-            background: linear-gradient(135deg, #38a169 0%, #48bb78 100%);
-        }
-        
-        .btn-exit {
-            background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
-            color: white;
-        }
-        
-        .btn-exit:hover {
-            background: linear-gradient(135deg, #e53e3e 0%, #f56565 100%);
-        }
-        
-        .location-info {
-            background-color: #f0f9ff;
-            border-left: 4px solid #4a90e2;
-            padding: 15px;
-            border-radius: 8px;
-            margin-top: 20px;
-            display: flex;
-            align-items: center;
-        }
-        
-        .location-info i {
-            color: #4a90e2;
-            font-size: 1.5rem;
-            margin-right: 15px;
-        }
-        
-        .location-details {
-            flex: 1;
-        }
-        
-        .location-status {
-            display: inline-block;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            margin-top: 5px;
-        }
-        
-        .status-valid {
-            background-color: #c6f6d5;
-            color: #2f855a;
-        }
-        
-        .status-invalid {
-            background-color: #fed7d7;
-            color: #c53030;
-        }
-        
-        .action-buttons {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
-        
-        .action-buttons .btn {
-            margin: 0 10px;
-            min-width: 140px;
-        }
-        
-        .captured-image {
-            display: none;
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
             width: 100%;
-            max-width: 320px;
-            height: 240px;
-            margin: 0 auto 15px;
-            border-radius: 8px;
-            object-fit: cover;
-            border: 2px solid #4a90e2;
         }
         
         /* Bottom Navigation Bar */
         .bottom-navbar {
             background-color: white;
-            border-radius: 15px;
-            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
-            padding: 15px;
-            max-width: 1000px;
-            margin: 0 auto;
+            border-radius: 12px;
+            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            max-width: 100%;
+            margin: 20px auto 0;
             width: 100%;
         }
         
         .nav-container {
             display: flex;
-            justify-content: space-around;
+            justify-content: space-between;
             align-items: center;
         }
         
@@ -293,18 +149,17 @@
             align-items: center;
             text-decoration: none;
             color: #4a5568;
-            padding: 10px 15px;
-            border-radius: 10px;
+            padding: 8px 5px;
+            border-radius: 8px;
             transition: all 0.3s ease;
             flex: 1;
-            max-width: 120px;
+            max-width: 20%;
             cursor: pointer;
         }
         
         .nav-item:hover {
             background-color: #ebf4ff;
             color: #667eea;
-            transform: translateY(-5px);
         }
         
         .nav-item.active {
@@ -313,336 +168,14 @@
         }
         
         .nav-icon {
-            font-size: 1.5rem;
-            margin-bottom: 5px;
+            font-size: 1.2rem;
+            margin-bottom: 3px;
         }
         
         .nav-text {
-            font-size: 0.9rem;
+            font-size: 0.7rem;
             font-weight: 500;
-        }
-        
-        .profile-section {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-        }
-        
-        .profile-pic {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 1.2rem;
-            margin-bottom: 5px;
-        }
-        
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 2rem;
-            }
-            
-            .header p {
-                font-size: 1rem;
-            }
-            
-            .camera-preview {
-                max-width: 100%;
-            }
-            
-            .action-buttons {
-                flex-direction: column;
-            }
-            
-            .action-buttons .btn {
-                margin: 10px 0;
-                width: 100%;
-            }
-            
-            .nav-container {
-                flex-wrap: wrap;
-            }
-            
-            .nav-item {
-                max-width: none;
-                margin: 5px;
-                flex: 1 0 25%;
-            }
-        }
-        
-        .time-display {
             text-align: center;
-            font-size: 1.2rem;
-            color: #4a5568;
-            margin: 20px 0;
-            padding: 10px;
-            background-color: #f8f9fa;
-            border-radius: 8px;
-        }
-        
-        .form-section {
-            display: none;
-        }
-        
-        .form-section.active {
-            display: block;
-        }
-        
-        .attendance-history {
-            width: 100%;
-            max-width: 800px;
-            background-color: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            padding: 20px;
-            margin-bottom: 30px;
-            display: none;
-        }
-        
-        .attendance-history h2 {
-            color: #2b6cb0;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        
-        .history-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
-        .history-table th, .history-table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        
-        .history-table th {
-            background-color: #f7fafc;
-            font-weight: 600;
-            color: #4a5568;
-        }
-        
-        .history-table tr:hover {
-            background-color: #f1f7ff;
-        }
-        
-        .profile-container {
-            width: 100%;
-            max-width: 800px;
-            background-color: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-            padding: 20px;
-            margin-bottom: 30px;
-            display: none;
-        }
-        
-        .profile-header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        
-        .profile-header h2 {
-            color: #2b6cb0;
-            margin-bottom: 10px;
-        }
-        
-        .profile-info {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-        
-        .profile-info .form-group {
-            margin-bottom: 15px;
-        }
-        
-        /* Dashboard Styles */
-        .dashboard {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-            width: 100%;
-            max-width: 800px;
-        }
-        
-        .dashboard-card {
-            background-color: white;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            text-align: center;
-        }
-        
-        .dashboard-card h3 {
-            color: #4a5568;
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-        }
-        
-        .stat-value {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #2b6cb0;
-            margin-bottom: 10px;
-        }
-        
-        .stat-label {
-            color: #718096;
-            font-size: 0.9rem;
-        }
-        
-        .today-status {
-            background: linear-gradient(135deg, #4a90e2 0%, #2b6cb0 100%);
-            color: white;
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        
-        /* Notification Panel */
-        .notification-panel {
-            position: fixed;
-            top: 0;
-            right: -300px;
-            width: 300px;
-            height: 100%;
-            background-color: white;
-            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
-            z-index: 1000;
-            transition: right 0.3s ease;
-            padding: 20px;
-            overflow-y: auto;
-        }
-        
-        .notification-panel.active {
-            right: 0;
-        }
-        
-        .notification-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        
-        .notification-header h3 {
-            color: #2b6cb0;
-        }
-        
-        .close-notifications {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #718096;
-        }
-        
-        .notification-item {
-            padding: 10px;
-            border-bottom: 1px solid #e2e8f0;
-            margin-bottom: 10px;
-        }
-        
-        .notification-item:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-        }
-        
-        .notification-time {
-            font-size: 0.8rem;
-            color: #718096;
-            margin-top: 5px;
-        }
-        
-        /* Overlay */
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-        }
-        
-        .overlay.active {
-            display: block;
-        }
-        
-        /* QR Code Scanner */
-        .qr-scanner {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: white;
-            padding: 20px;
-            border-radius: 15px;
-            z-index: 1001;
-            width: 300px;
-            text-align: center;
-        }
-        
-        .qr-scanner.active {
-            display: block;
-        }
-        
-        .qr-scanner video {
-            width: 100%;
-            border-radius: 10px;
-            margin-bottom: 15px;
-        }
-        
-        /* Report Section */
-        .report-filters {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-        
-        .report-filters select, .report-filters input {
-            padding: 10px;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            flex: 1;
-            min-width: 150px;
-        }
-        
-        .report-actions {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        
-        /* Loading Spinner */
-        .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #3498db;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
         }
         
         /* Toast Notification */
@@ -653,76 +186,41 @@
             transform: translateX(-50%);
             background-color: #323232;
             color: white;
-            padding: 15px 25px;
+            padding: 12px 20px;
             border-radius: 8px;
             z-index: 1000;
             opacity: 0;
             transition: opacity 0.3s;
+            font-size: 0.9rem;
+            max-width: 90%;
+            text-align: center;
         }
         
         .toast.active {
             opacity: 1;
         }
         
-        /* Calendar */
-        .calendar {
-            max-width: 300px;
-            margin: 0 auto 20px;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            overflow: hidden;
+        /* Responsive adjustments */
+        @media (max-width: 340px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .stat-value {
+                font-size: 1.5rem;
+            }
         }
         
-        .calendar-header {
-            background: linear-gradient(135deg, #4a90e2 0%, #2b6cb0 100%);
-            color: white;
-            padding: 10px;
-            text-align: center;
-            font-weight: bold;
-        }
-        
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 5px;
-            padding: 10px;
-        }
-        
-        .calendar-cell {
-            text-align: center;
-            padding: 5px;
-        }
-        
-        .calendar-day {
-            font-weight: bold;
-            color: #4a5568;
-            margin-bottom: 5px;
-        }
-        
-        .calendar-date {
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto;
-            border-radius: 50%;
-            cursor: pointer;
-        }
-        
-        .calendar-date.active {
-            background-color: #4a90e2;
-            color: white;
-        }
-        
-        .calendar-date.present {
-            background-color: #48bb78;
-            color: white;
-        }
-        
-        .calendar-date.absent {
-            background-color: #f56565;
-            color: white;
+        @media (min-width: 500px) {
+            body {
+                padding: 20px;
+                max-width: 500px;
+                margin: 0 auto;
+            }
         }
     </style>
 </head>
@@ -760,421 +258,6 @@
         <div class="today-status" id="today-status">
             <h3>Status Presensi Hari Ini</h3>
             <p>Anda sudah melakukan presensi masuk pada pukul 08:05</p>
-        </div>
-        
-        <!-- Form Absen Masuk -->
-        <div class="container form-section active" id="absen-masuk">
-            <div class="container-header">
-                <h2>Presensi Masuk</h2>
-                <p>Isi form di bawah ini untuk melakukan presensi kehadiran</p>
-                <button class="btn btn-secondary" style="position: absolute; top: 15px; right: 15px; padding: 5px 10px;" id="scan-qr">
-                    <i class="fas fa-qrcode"></i> Scan QR
-                </button>
-            </div>
-            
-            <div class="content">
-                <div class="time-display">
-                    <span id="current-date"></span> | 
-                    <span id="current-time"></span>
-                </div>
-                
-                <div class="form-group">
-                    <label for="nik-masuk">NIK (Nomor Induk Karyawan)</label>
-                    <input type="text" id="nik-masuk" class="form-control" placeholder="Masukkan NIK Anda">
-                </div>
-                
-                <div class="form-group">
-                    <label for="nama-masuk">Nama Lengkap</label>
-                    <input type="text" id="nama-masuk" class="form-control" placeholder="Masukkan nama lengkap Anda">
-                </div>
-                
-                <div class="form-group">
-                    <label for="jabatan-masuk">Jabatan</label>
-                    <input type="text" id="jabatan-masuk" class="form-control" value="PPNPN" readonly>
-                </div>
-                
-                <div class="form-group">
-                    <label for="keterangan-masuk">Keterangan (opsional)</label>
-                    <select id="keterangan-masuk" class="form-control">
-                        <option value="">-- Pilih Keterangan --</option>
-                        <option value="WFH">Work From Home</option>
-                        <option value="Dinas">Dinas Luar</option>
-                        <option value="Izin">Izin</option>
-                        <option value="Lainnya">Lainnya</option>
-                    </select>
-                </div>
-                
-                <div class="camera-section">
-                    <label>Foto Selfie</label>
-                    <div class="camera-preview" id="camera-preview-masuk">
-                        <span id="camera-placeholder-masuk">Kamera siap untuk digunakan</span>
-                        <video id="video-masuk" autoplay playsinline style="display: none;"></video>
-                        <canvas id="canvas-masuk" style="display: none;"></canvas>
-                    </div>
-                    <img id="captured-image-masuk" class="captured-image" alt="Foto yang diambil">
-                    
-                    <div style="margin-top: 15px;">
-                        <button id="start-camera-masuk" class="btn btn-secondary">
-                            <i class="fas fa-camera"></i> Aktifkan Kamera
-                        </button>
-                        <button id="capture-masuk" class="btn btn-capture" disabled>
-                            <i class="fas fa-camera-retro"></i> Ambil Foto
-                        </button>
-                        <button id="retake-masuk" class="btn btn-secondary" style="display: none;">
-                            <i class="fas fa-redo"></i> Ambil Ulang
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="location-info">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <div class="location-details">
-                        <strong>Status Lokasi</strong>
-                        <div id="location-status-masuk" class="location-status status-invalid">
-                            <i class="fas fa-times-circle"></i> Diluar area presensi
-                        </div>
-                        <p id="location-details-masuk" style="margin-top: 8px; font-size: 0.9rem;">
-                            Memeriksa lokasi Anda...
-                        </p>
-                    </div>
-                </div>
-                
-                <div class="action-buttons">
-                    <button id="submit-btn-masuk" class="btn btn-primary" disabled>
-                        <i class="fas fa-paper-plane"></i> Kirim Presensi Masuk
-                    </button>
-                    <button id="reset-btn-masuk" class="btn btn-secondary">
-                        <i class="fas fa-redo"></i> Reset Form
-                    </button>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Form Absen Keluar -->
-        <div class="container form-section" id="absen-keluar">
-            <div class="container-header">
-                <h2>Presensi Keluar</h2>
-                <p>Isi form di bawah ini untuk melakukan presensi kepulangan</p>
-            </div>
-            
-            <div class="content">
-                <div class="time-display">
-                    <span id="current-date-keluar"></span> | 
-                    <span id="current-time-keluar"></span>
-                </div>
-                
-                <div class="form-group">
-                    <label for="nik-keluar">NIK (Nomor Induk Karyawan)</label>
-                    <input type="text" id="nik-keluar" class="form-control" placeholder="Masukkan NIK Anda">
-                </div>
-                
-                <div class="form-group">
-                    <label for="nama-keluar">Nama Lengkap</label>
-                    <input type="text" id="nama-keluar" class="form-control" placeholder="Masukkan nama lengkap Anda">
-                </div>
-                
-                <div class="form-group">
-                    <label for="jabatan-keluar">Jabatan</label>
-                    <input type="text" id="jabatan-keluar" class="form-control" value="PPNPN" readonly>
-                </div>
-                
-                <div class="form-group">
-                    <label for="keterangan-keluar">Keterangan (opsional)</label>
-                    <select id="keterangan-keluar" class="form-control">
-                        <option value="">-- Pilih Keterangan --</option>
-                        <option value="Lembur">Lembur</option>
-                        <option value="Pulang Cepat">Pulang Cepat</option>
-                        <option value="Lainnya">Lainnya</option>
-                    </select>
-                </div>
-                
-                <div class="camera-section">
-                    <label>Foto Selfie</label>
-                    <div class="camera-preview" id="camera-preview-keluar">
-                        <span id="camera-placeholder-keluar">Kamera siap untuk digunakan</span>
-                        <video id="video-keluar" autoplay playsinline style="display: none;"></video>
-                        <canvas id="canvas-keluar" style="display: none;"></canvas>
-                    </div>
-                    <img id="captured-image-keluar" class="captured-image" alt="Foto yang diambil">
-                    
-                    <div style="margin-top: 15px;">
-                        <button id="start-camera-keluar" class="btn btn-secondary">
-                            <i class="fas fa-camera"></i> Aktifkan Kamera
-                        </button>
-                        <button id="capture-keluar" class="btn btn-capture" disabled>
-                            <i class="fas fa-camera-retro"></i> Ambil Foto
-                        </button>
-                        <button id="retake-keluar" class="btn btn-secondary" style="display: none;">
-                            <i class="fas fa-redo"></i> Ambil Ulang
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="location-info">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <div class="location-details">
-                        <strong>Status Lokasi</strong>
-                        <div id="location-status-keluar" class="location-status status-invalid">
-                            <i class="fas fa-times-circle"></i> Diluar area presensi
-                        </div>
-                        <p id="location-details-keluar" style="margin-top: 8px; font-size: 0.9rem;">
-                            Memeriksa lokasi Anda...
-                        </p>
-                    </div>
-                </div>
-                
-                <div class="action-buttons">
-                    <button id="submit-btn-keluar" class="btn btn-exit" disabled>
-                        <i class="fas fa-sign-out-alt"></i> Kirim Presensi Keluar
-                    </button>
-                    <button id="reset-btn-keluar" class="btn btn-secondary">
-                        <i class="fas fa-redo"></i> Reset Form
-                    </button>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Riwayat Presensi -->
-        <div class="attendance-history" id="riwayat">
-            <h2>Riwayat Presensi</h2>
-            
-            <div class="report-filters">
-                <select id="filter-bulan">
-                    <option value="0">Januari</option>
-                    <option value="1">Februari</option>
-                    <option value="2">Maret</option>
-                    <option value="3">April</option>
-                    <option value="4">Mei</option>
-                    <option value="5">Juni</option>
-                    <option value="6" selected>Juli</option>
-                    <option value="7">Agustus</option>
-                    <option value="8">September</option>
-                    <option value="9">Oktober</option>
-                    <option value="10">November</option>
-                    <option value="11">Desember</option>
-                </select>
-                
-                <select id="filter-tahun">
-                    <option value="2022">2022</option>
-                    <option value="2023" selected>2023</option>
-                    <option value="2024">2024</option>
-                </select>
-                
-                <button class="btn btn-primary">
-                    <i class="fas fa-filter"></i> Filter
-                </button>
-            </div>
-            
-            <div class="report-actions">
-                <button class="btn btn-secondary">
-                    <i class="fas fa-download"></i> Export CSV
-                </button>
-                <button class="btn btn-secondary">
-                    <i class="fas fa-print"></i> Print
-                </button>
-            </div>
-            
-            <table class="history-table">
-                <thead>
-                    <tr>
-                        <th>Tanggal</th>
-                        <th>Jenis</th>
-                        <th>Waktu</th>
-                        <th>Status</th>
-                        <th>Keterangan</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>12/07/2023</td>
-                        <td>Masuk</td>
-                        <td>07:55:12</td>
-                        <td>Berhasil</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td>12/07/2023</td>
-                        <td>Keluar</td>
-                        <td>16:58:34</td>
-                        <td>Berhasil</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td>11/07/2023</td>
-                        <td>Masuk</td>
-                        <td>08:02:45</td>
-                        <td>Berhasil</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td>11/07/2023</td>
-                        <td>Keluar</td>
-                        <td>17:05:21</td>
-                        <td>Berhasil</td>
-                        <td>Lembur</td>
-                    </tr>
-                    <tr>
-                        <td>10/07/2023</td>
-                        <td>Masuk</td>
-                        <td>08:15:33</td>
-                        <td>Terlambat</td>
-                        <td>-</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        
-        <!-- Profil Pengguna -->
-        <div class="profile-container" id="profil">
-            <div class="profile-header">
-                <h2>Profil Pengguna</h2>
-                <p>Informasi akun dan data pribadi Anda</p>
-            </div>
-            
-            <div class="content">
-                <div class="profile-info">
-                    <div class="form-group">
-                        <label for="profile-nik">NIK (Nomor Induk Karyawan)</label>
-                        <input type="text" id="profile-nik" class="form-control" value="1234567890" readonly>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="profile-nama">Nama Lengkap</label>
-                        <input type="text" id="profile-nama" class="form-control" value="John Doe" readonly>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="profile-jabatan">Jabatan</label>
-                        <input type="text" id="profile-jabatan" class="form-control" value="PPNPN" readonly>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="profile-unit">Unit Kerja</label>
-                        <input type="text" id="profile-unit" class="form-control" value="Bidang IT" readonly>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="profile-email">Email</label>
-                        <input type="email" id="profile-email" class="form-control" value="john.doe@example.com">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="profile-phone">No. Telepon</label>
-                        <input type="tel" id="profile-phone" class="form-control" value="081234567890">
-                    </div>
-                </div>
-                
-                <div class="action-buttons">
-                    <button class="btn btn-primary">
-                        <i class="fas fa-sync-alt"></i> Perbarui Data
-                    </button>
-                    <button class="btn btn-secondary">
-                        <i class="fas fa-key"></i> Ganti Password
-                    </button>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Kalender Kehadiran -->
-        <div class="container" id="kalender" style="display: none;">
-            <div class="container-header">
-                <h2>Kalender Kehadiran</h2>
-                <p>Lihat riwayat kehadiran Anda dalam bentuk kalender</p>
-            </div>
-            
-            <div class="content">
-                <div class="calendar">
-                    <div class="calendar-header">
-                        Juli 2023
-                    </div>
-                    <div class="calendar-grid">
-                        <div class="calendar-cell">
-                            <div class="calendar-day">Min</div>
-                            <div class="calendar-date"></div>
-                        </div>
-                        <div class="calendar-cell">
-                            <div class="calendar-day">Sen</div>
-                            <div class="calendar-date"></div>
-                        </div>
-                        <div class="calendar-cell">
-                            <div class="calendar-day">Sel</div>
-                            <div class="calendar-date"></div>
-                        </div>
-                        <div class="calendar-cell">
-                            <div class="calendar-day">Rab</div>
-                            <div class="calendar-date"></div>
-                        </div>
-                        <div class="calendar-cell">
-                            <div class="calendar-day">Kam</div>
-                            <div class="calendar-date"></div>
-                        </div>
-                        <div class="calendar-cell">
-                            <div class="calendar-day">Jum</div>
-                            <div class="calendar-date"></div>
-                        </div>
-                        <div class="calendar-cell">
-                            <div class="calendar-day">Sab</div>
-                            <div class="calendar-date"></div>
-                        </div>
-                        
-                        <!-- Tanggal -->
-                        <div class="calendar-cell"></div>
-                        <div class="calendar-cell"></div>
-                        <div class="calendar-cell"></div>
-                        <div class="calendar-cell"></div>
-                        <div class="calendar-cell"></div>
-                        <div class="calendar-cell"></div>
-                        <div class="calendar-cell"><div class="calendar-date">1</div></div>
-                        
-                        <div class="calendar-cell"><div class="calendar-date">2</div></div>
-                        <div class="calendar-cell"><div class="calendar-date present">3</div></div>
-                        <div class="calendar-cell"><div class="calendar-date present">4</div></div>
-                        <div class="calendar-cell"><div class="calendar-date present">5</div></div>
-                        <div class="calendar-cell"><div class="calendar-date present">6</div></div>
-                        <div class="calendar-cell"><div class="calendar-date present">7</div></div>
-                        <div class="calendar-cell"><div class="calendar-date">8</div></div>
-                        
-                        <div class="calendar-cell"><div class="calendar-date">9</div></div>
-                        <div class="calendar-cell"><div class="calendar-date present">10</div></div>
-                        <div class="calendar-cell"><div class="calendar-date present">11</div></div>
-                        <div class="calendar-cell"><div class="calendar-date present">12</div></div>
-                        <div class="calendar-cell"><div class="calendar-date present">13</div></div>
-                        <div class="calendar-cell"><div class="calendar-date present">14</div></div>
-                        <div class="calendar-cell"><div class="calendar-date">15</div></div>
-                        
-                        <div class="calendar-cell"><div class="calendar-date">16</div></div>
-                        <div class="calendar-cell"><div class="calendar-date present">17</div></div>
-                        <div class="calendar-cell"><div class="calendar-date present">18</div></div>
-                        <div class="calendar-cell"><div class="calendar-date absent">19</div></div>
-                        <div class="calendar-cell"><div class="calendar-date present">20</div></div>
-                        <div class="calendar-cell"><div class="calendar-date present">21</div></div>
-                        <div class="calendar-cell"><div class="calendar-date">22</div></div>
-                        
-                        <div class="calendar-cell"><div class="calendar-date">23</div></div>
-                        <div class="calendar-cell"><div class="calendar-date present">24</div></div>
-                        <div class="calendar-cell"><div class="calendar-date present">25</div></div>
-                        <div class="calendar-cell"><div class="calendar-date present">26</div></div>
-                        <div class="calendar-cell"><div class="calendar-date present">27</div></div>
-                        <div class="calendar-cell"><div class="calendar-date present">28</div></div>
-                        <div class="calendar-cell"><div class="calendar-date">29</div></div>
-                        
-                        <div class="calendar-cell"><div class="calendar-date">30</div></div>
-                        <div class="calendar-cell"><div class="calendar-date present">31</div></div>
-                    </div>
-                </div>
-                
-                <div style="text-align: center; margin-top: 20px;">
-                    <div style="display: inline-block; margin-right: 15px;">
-                        <span style="display: inline-block; width: 15px; height: 15px; background-color: #48bb78; border-radius: 3px; margin-right: 5px;"></span> Hadir
-                    </div>
-                    <div style="display: inline-block; margin-right: 15px;">
-                        <span style="display: inline-block; width: 15px; height: 15px; background-color: #f56565; border-radius: 3px; margin-right: 5px;"></span> Absen
-                    </div>
-                    <div style="display: inline-block;">
-                        <span style="display: inline-block; width: 15px; height: 15px; background-color: #e2e8f0; border-radius: 3px; margin-right: 5px;"></span> Libur
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
     
@@ -1218,75 +301,10 @@
         </div>
     </nav>
     
-    <!-- Notification Panel -->
-    <div class="notification-panel" id="notification-panel">
-        <div class="notification-header">
-            <h3>Notifikasi</h3>
-            <button class="close-notifications" id="close-notifications">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        
-        <div class="notification-item">
-            <p><strong>Presensi Berhasil</strong> - Anda telah berhasil melakukan presensi masuk pada 08:05</p>
-            <div class="notification-time">Hari ini, 08:05</div>
-        </div>
-        
-        <div class="notification-item">
-            <p><strong>Pengingat Presensi</strong> - Jangan lupa untuk melakukan presensi keluar</p>
-            <div class="notification-time">Kemarin, 16:30</div>
-        </div>
-        
-        <div class="notification-item">
-            <p><strong>Informasi Sistem</strong> - Akan dilakukan maintenance pada Minggu, 16 Juli 2023</p>
-            <div class="notification-time">2 hari yang lalu</div>
-        </div>
-    </div>
-    
-    <!-- Overlay -->
-    <div class="overlay" id="overlay"></div>
-    
-    <!-- QR Code Scanner -->
-    <div class="qr-scanner" id="qr-scanner">
-        <h3>Scan QR Code</h3>
-        <div id="qr-reader" style="width: 100%"></div>
-        <p>Arahkan kamera ke QR code yang tersedia di lokasi presensi</p>
-        <button class="btn btn-secondary" id="close-qr" style="margin-top: 15px;">
-            <i class="fas fa-times"></i> Tutup
-        </button>
-    </div>
-    
     <!-- Toast Notification -->
     <div class="toast" id="toast"></div>
 
     <script>
-        // Fungsi untuk menampilkan tanggal dan waktu terkini
-        function updateDateTime() {
-            const now = new Date();
-            
-            // Format tanggal
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            const dateString = now.toLocaleDateString('id-ID', options);
-            
-            // Format waktu
-            const timeString = now.toLocaleTimeString('id-ID', {
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            });
-            
-            // Update elemen HTML
-            document.getElementById('current-date').textContent = dateString;
-            document.getElementById('current-time').textContent = timeString;
-            
-            document.getElementById('current-date-keluar').textContent = dateString;
-            document.getElementById('current-time-keluar').textContent = timeString;
-        }
-        
-        // Update waktu setiap detik
-        setInterval(updateDateTime, 1000);
-        updateDateTime(); // Panggil pertama kali
-        
         // Fungsi untuk navigasi
         document.querySelectorAll('.nav-item').forEach(item => {
             item.addEventListener('click', function() {
@@ -1298,233 +316,10 @@
                 // Tambahkan kelas aktif ke item yang diklik
                 this.classList.add('active');
                 
-                // Sembunyikan semua section
-                document.querySelectorAll('.form-section, .attendance-history, .profile-container, #dashboard, #kalender').forEach(section => {
-                    section.style.display = 'none';
-                });
-                
-                // Tampilkan section yang sesuai
+                // Tampilkan pesan untuk demo
                 const target = this.getAttribute('data-target');
-                if (target === 'dashboard') {
-                    document.getElementById('dashboard').style.display = 'grid';
-                    document.getElementById('today-status').style.display = 'block';
-                } else {
-                    document.getElementById(target).style.display = 'block';
-                    // Untuk form-section, tambahkan kelas active
-                    if (target.includes('absen')) {
-                        document.getElementById(target).classList.add('active');
-                    }
-                }
+                showToast(`Membuka ${target.replace('-', ' ')}`);
             });
-        });
-        
-        // Inisialisasi fungsi untuk form absen masuk
-        initForm('masuk');
-        
-        // Inisialisasi fungsi untuk form absen keluar
-        initForm('keluar');
-        
-        // Fungsi untuk menginisialisasi form
-        function initForm(jenis) {
-            const video = document.getElementById(video-`${jenis}`);
-            const canvas = document.getElementById(canvas-`${jenis}`);
-            const captureButton = document.getElementById(capture-`${jenis}`);
-            const retakeButton = document.getElementById(retake-`${jenis}`);
-            const startCameraButton = document.getElementById(start-camera-`${jenis}`);
-            const capturedImage = document.getElementById(captured-image-`${jenis}`);
-            const cameraPlaceholder = document.getElementById(camera-placeholder-`${jenis}`);
-            const locationStatus = document.getElementById(location-status-`${jenis}`);
-            const locationDetails = document.getElementById(location-details-`${jenis}`);
-            const submitButton = document.getElementById(submit-btn-`${jenis}`);
-            const resetButton = document.getElementById(reset-btn-`${jenis}`);
-            const nikInput = document.getElementById(nik-`${jenis}`);
-            const namaInput = document.getElementById(nama-`${jenis}`);
-            
-            let stream = null;
-            let isCameraActive = false;
-            let isLocationValid = false;
-            let capturedPhotoData = null;
-            
-            // Aktifkan kamera
-            startCameraButton.addEventListener('click', async () => {
-                try {
-                    stream = await navigator.mediaDevices.getUserMedia({ 
-                        video: { 
-                            width: { ideal: 1280 },
-                            height: { ideal: 720 },
-                            facingMode: "user" 
-                        }, 
-                        audio: false 
-                    });
-                    
-                    video.srcObject = stream;
-                    video.style.display = 'block';
-                    cameraPlaceholder.style.display = 'none';
-                    captureButton.disabled = false;
-                    startCameraButton.disabled = true;
-                    isCameraActive = true;
-                    
-                } catch (err) {
-                    alert('Tidak dapat mengakses kamera: ' + err.message);
-                    console.error('Error accessing camera:', err);
-                }
-            });
-            
-            // Ambil foto
-            captureButton.addEventListener('click', () => {
-                const context = canvas.getContext('2d');
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
-                context.drawImage(video, 0, 0, canvas.width, canvas.height);
-                
-                capturedPhotoData = canvas.toDataURL('image/png');
-                capturedImage.src = capturedPhotoData;
-                capturedImage.style.display = 'block';
-                video.style.display = 'none';
-                captureButton.style.display = 'none';
-                retakeButton.style.display = 'inline-block';
-                
-                // Matikan kamera
-                if (stream) {
-                    stream.getTracks().forEach(track => track.stop());
-                    isCameraActive = false;
-                }
-                
-                updateSubmitButtonState();
-            });
-            
-            // Ambil ulang foto
-            retakeButton.addEventListener('click', () => {
-                capturedImage.style.display = 'none';
-                video.style.display = 'block';
-                captureButton.style.display = 'inline-block';
-                retakeButton.style.display = 'none';
-                
-                // Aktifkan kembali kamera
-                startCameraButton.click();
-            });
-            
-            // Validasi lokasi
-            function validateLocation() {
-                // Simulasi validasi lokasi
-                const isInValidLocation = Math.random() > 0.3;
-                
-                if (isInValidLocation) {
-                    locationStatus.innerHTML = '<i class="fas fa-check-circle"></i> Dalam area presensi';
-                    locationStatus.className = 'location-status status-valid';
-                    locationDetails.textContent = 'Anda berada dalam area yang diizinkan untuk melakukan presensi.';
-                    isLocationValid = true;
-                } else {
-                    locationStatus.innerHTML = '<i class="fas fa-times-circle"></i> Diluar area presensi';
-                    locationStatus.className = 'location-status status-invalid';
-                    locationDetails.textContent = 'Anda berada di luar area yang diizinkan untuk melakukan presensi. Silakan datang ke lokasi yang ditentukan.';
-                    isLocationValid = false;
-                }
-                
-                updateSubmitButtonState();
-            }
-            
-            // Update status tombol submit
-            function updateSubmitButtonState() {
-                const isFormValid = nikInput.value.trim() !== '' && 
-                                   namaInput.value.trim() !== '' && 
-                                   capturedPhotoData !== null && 
-                                   isLocationValid;
-                
-                submitButton.disabled = !isFormValid;
-            }
-            
-            // Event listeners untuk input form
-            nikInput.addEventListener('input', updateSubmitButtonState);
-            namaInput.addEventListener('input', updateSubmitButtonState);
-            
-            // Simulasi pemeriksaan lokasi
-            setTimeout(validateLocation, 2000);
-            
-            // Reset form
-            resetButton.addEventListener('click', () => {
-                nikInput.value = '';
-                namaInput.value = '';
-                capturedPhotoData = null;
-                capturedImage.style.display = 'none';
-                capturedImage.src = '';
-                video.style.display = 'none';
-                cameraPlaceholder.style.display = 'flex';
-                captureButton.disabled = true;
-                captureButton.style.display = 'inline-block';
-                retakeButton.style.display = 'none';
-                startCameraButton.disabled = false;
-                
-                // Matikan kamera jika aktif
-                if (stream) {
-                    stream.getTracks().forEach(track => track.stop());
-                    isCameraActive = false;
-                }
-                
-                // Ulangi validasi lokasi
-                validateLocation();
-                
-                submitButton.disabled = true;
-            });
-            
-            // Submit form
-            submitButton.addEventListener('click', () => {
-                const action = jenis === 'masuk' ? 'masuk' : 'keluar';
-                showToast(Presensi `${action} berhasil dikirim!`);
-                
-                // Simpan ke localStorage (simulasi)
-                const attendanceData = {
-                    type: action,
-                    nik: nikInput.value,
-                    name: namaInput.value,
-                    timestamp: new Date().toISOString(),
-                    location: isLocationValid ? 'valid' : 'invalid',
-                    photo: capturedPhotoData
-                };
-                
-                // Simpan data presensi
-                saveAttendanceData(attendanceData);
-                
-                // Reset form
-                resetButton.click();
-                
-                // Update dashboard
-                updateDashboard();
-            });
-            
-            // Simulasi perubahan lokasi setiap 10 detik
-            setInterval(validateLocation, 10000);
-        }
-        
-        // Fungsi untuk menampilkan notifikasi panel
-        document.getElementById('notification-bell').addEventListener('click', () => {
-            document.getElementById('notification-panel').classList.add('active');
-            document.getElementById('overlay').classList.add('active');
-        });
-        
-        // Fungsi untuk menutup notifikasi panel
-        document.getElementById('close-notifications').addEventListener('click', () => {
-            document.getElementById('notification-panel').classList.remove('active');
-            document.getElementById('overlay').classList.remove('active');
-        });
-        
-        // Fungsi untuk menutup panel ketika overlay diklik
-        document.getElementById('overlay').addEventListener('click', () => {
-            document.getElementById('notification-panel').classList.remove('active');
-            document.getElementById('qr-scanner').classList.remove('active');
-            document.getElementById('overlay').classList.remove('active');
-        });
-        
-        // Fungsi untuk QR Code scanner
-        document.getElementById('scan-qr').addEventListener('click', () => {
-            document.getElementById('qr-scanner').classList.add('active');
-            document.getElementById('overlay').classList.add('active');
-        });
-        
-        // Fungsi untuk menutup QR scanner
-        document.getElementById('close-qr').addEventListener('click', () => {
-            document.getElementById('qr-scanner').classList.remove('active');
-            document.getElementById('overlay').classList.remove('active');
         });
         
         // Fungsi untuk menampilkan toast notifikasi
@@ -1538,42 +333,23 @@
             }, 3000);
         }
         
-        // Fungsi untuk menyimpan data presensi ke localStorage
-        function saveAttendanceData(data) {
-            let attendanceHistory = JSON.parse(localStorage.getItem('attendanceHistory')) || [];
-            attendanceHistory.push(data);
-            localStorage.setItem('attendanceHistory', JSON.stringify(attendanceHistory));
-        }
-        
-        // Fungsi untuk memperbarui dashboard
-        function updateDashboard() {
-            // Dalam implementasi nyata, ini akan mengambil data dari server
-            // Di sini kita hanya mensimulasikan
-            const todayStatus = document.getElementById('today-status');
-            todayStatus.innerHTML = `
-                <h3>Status Presensi Hari Ini</h3>
-                <p>Anda sudah melakukan presensi masuk pada pukul ${new Date().toLocaleTimeString('id-ID', {hour: '2-digit', minute: '2-digit'})}</p>
-            `;
-            
-            showToast('Dashboard diperbarui!');
-        }
-        
         // Inisialisasi data dummy untuk dashboard
         window.addEventListener('load', () => {
             // Cek apakah sudah absen hari ini
-            const today = new Date().toLocaleDateString('id-ID');
-            const attendanceHistory = JSON.parse(localStorage.getItem('attendanceHistory')) || [];
-            const todayAttendance = attendanceHistory.find(att => {
-                const attDate = new Date(att.timestamp).toLocaleDateString('id-ID');
-                return attDate === today && att.type === 'masuk';
-            });
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
             
-            if (todayAttendance) {
-                const todayStatus = document.getElementById('today-status');
-                const time = new Date(todayAttendance.timestamp).toLocaleTimeString('id-ID', {hour: '2-digit', minute: '2-digit'});
+            const todayStatus = document.getElementById('today-status');
+            if (hours < 12) {
                 todayStatus.innerHTML = `
                     <h3>Status Presensi Hari Ini</h3>
-                    <p>Anda sudah melakukan presensi masuk pada pukul ${time}</p>
+                    <p>Anda sudah melakukan presensi masuk pada pukul ${hours}:${minutes < 10 ? '0' + minutes : minutes}</p>
+                `;
+            } else {
+                todayStatus.innerHTML = `
+                    <h3>Status Presensi Hari Ini</h3>
+                    <p>Anda sudah melakukan presensi keluar pada pukul ${hours}:${minutes < 10 ? '0' + minutes : minutes}</p>
                 `;
             }
         });
