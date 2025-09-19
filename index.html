@@ -1,661 +1,113 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Presensi & Dashboard PPNPN</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 15px;
-            color: #333;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        /* Header Styles */
-        .header {
-            text-align: center;
-            padding: 15px 10px;
-            color: white;
-            margin-bottom: 15px;
-            position: relative;
-        }
-        
-        .header h1 {
-            font-size: 1.8rem;
-            margin-bottom: 8px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-        
-        .header p {
-            font-size: 0.9rem;
-            max-width: 100%;
-            margin: 0 auto;
-            line-height: 1.4;
-        }
-        
-        .notification-bell {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            color: white;
-            font-size: 1.2rem;
-            cursor: pointer;
-        }
-        
-        .notification-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background-color: #e74c3c;
-            color: white;
-            border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.7rem;
-            font-weight: bold;
-        }
-        
-        /* Main Content Styles */
-        .main-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            width: 100%;
-        }
-        
-        /* Dashboard Styles */
-        .dashboard {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 12px;
-            margin-bottom: 20px;
-            width: 100%;
-            max-width: 100%;
-        }
-        
-        .dashboard-card {
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-            padding: 15px;
-            text-align: center;
-        }
-        
-        .dashboard-card h3 {
-            color: #4a5568;
-            margin-bottom: 10px;
-            font-size: 0.9rem;
-        }
-        
-        .stat-value {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #2b6cb0;
-            margin-bottom: 5px;
-        }
-        
-        .stat-label {
-            color: #718096;
-            font-size: 0.8rem;
-        }
-        
-        .today-status {
-            background: linear-gradient(135deg, #4a90e2 0%, #2b6cb0 100%);
-            color: white;
-            padding: 12px;
-            border-radius: 10px;
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 0.9rem;
-            width: 100%;
-        }
-        
-        /* Dashboard Karyawan Styles */
-        .dashboard-karyawan {
-            display: none;
-            width: 100%;
-        }
-        
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .dashboard-karyawan-card {
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-            padding: 15px;
-            transition: transform 0.3s;
-        }
-        
-        .dashboard-karyawan-card:hover {
-            transform: translateY(-3px);
-        }
-        
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #f1f1f1;
-        }
-        
-        .card-title {
-            font-size: 1.1rem;
-            color: #2b6cb0;
-            font-weight: 600;
-        }
-        
-        .card-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #4a90e2 0%, #2b6cb0 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1rem;
-        }
-        
-        .status-list {
-            list-style-type: none;
-        }
-        
-        .status-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #f1f1f1;
-        }
-        
-        .status-item:last-child {
-            border-bottom: none;
-        }
-        
-        .status-label {
-            font-weight: 500;
-            color: #4a5568;
-            font-size: 0.9rem;
-        }
-        
-        .status-value {
-            font-weight: 600;
-            color: #2b6cb0;
-            background-color: #ebf4ff;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-        }
-        
-        /* Bottom Navigation Bar */
-        .bottom-navbar {
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1);
-            padding: 10px;
-            max-width: 100%;
-            margin: 20px auto 0;
-            width: 100%;
-        }
-        
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-decoration: none;
-            color: #4a5568;
-            padding: 8px 5px;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            flex: 1;
-            max-width: 20%;
-            cursor: pointer;
-        }
-        
-        .nav-item:hover {
-            background-color: #ebf4ff;
-            color: #667eea;
-        }
-        
-        .nav-item.active {
-            background-color: #667eea;
-            color: white;
-        }
-        
-        .nav-icon {
-            font-size: 1.2rem;
-            margin-bottom: 3px;
-        }
-        
-        .nav-text {
-            font-size: 0.7rem;
-            font-weight: 500;
-            text-align: center;
-        }
-        
-        /* Toast Notification */
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #323232;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 8px;
-            z-index: 1000;
-            opacity: 0;
-            transition: opacity 0.3s;
-            font-size: 0.9rem;
-            max-width: 90%;
-            text-align: center;
-        }
-        
-        .toast.active {
-            opacity: 1;
-        }
-        
-        /* Responsive adjustments */
-        @media (max-width: 340px) {
-            .dashboard {
-                grid-template-columns: 1fr;
-            }
-            
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .header h1 {
-                font-size: 1.5rem;
-            }
-            
-            .stat-value {
-                font-size: 1.5rem;
-            }
-        }
-        
-        @media (min-width: 500px) {
-            body {
-                padding: 20px;
-                max-width: 500px;
-                margin: 0 auto;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Absensi PPNPN</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: #043a47;
+      color: #c3ff77;
+      text-align: center;
+    }
+
+    .header {
+      background: #2041ff;
+      padding: 15px;
+      font-size: 20px;
+      font-weight: bold;
+      border-radius: 15px;
+      margin: 15px;
+    }
+
+    .card {
+      background: #2041ff;
+      margin: 15px;
+      padding: 20px;
+      border-radius: 15px;
+    }
+
+    .card h2 {
+      margin: 0;
+      font-size: 40px;
+    }
+
+    .row {
+      display: flex;
+      justify-content: center;
+      margin: 10px;
+      gap: 10px;
+    }
+
+    .small-card {
+      flex: 1;
+      background: #d671ff;
+      padding: 20px;
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .bottom-nav {
+      display: flex;
+      justify-content: space-around;
+      background: #2041ff;
+      padding: 10px;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
+    }
+
+    .bottom-nav div {
+      color: #fff;
+      font-size: 20px;
+      text-align: center;
+    }
+
+    .bottom-nav i {
+      display: block;
+      font-size: 25px;
+      margin-bottom: 5px;
+    }
+  </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Sistem Presensi PPNPN</h1>
-        <p>Pantau kehadiran Anda dengan mudah dan efisien</p>
-        <div class="notification-bell" id="notification-bell">
-            <i class="fas fa-bell"></i>
-            <span class="notification-badge">3</span>
-        </div>
-    </div>
-    
-    <div class="main-content">
-        <!-- Dashboard Presensi -->
-        <div class="dashboard" id="dashboard-presensi">
-            <div class="dashboard-card">
-                <h3>Kehadiran Bulan Ini</h3>
-                <div class="stat-value">18</div>
-                <div class="stat-label">dari 22 hari kerja</div>
-            </div>
-            <div class="dashboard-card">
-                <h3>Terlambat</h3>
-                <div class="stat-value">2</div>
-                <div class="stat-label">kali</div>
-            </div>
-            <div class="dashboard-card">
-                <h3>Izin</h3>
-                <div class="stat-value">1</div>
-                <div class="stat-label">kali</div>
-            </div>
-        </div>
-        
-        <!-- Status Hari Ini -->
-        <div class="today-status" id="today-status">
-            <h3>Status Presensi Hari Ini</h3>
-            <p>Anda sudah melakukan presensi masuk pada pukul 08:05</p>
-        </div>
-        
-        <!-- Dashboard Karyawan -->
-        <div class="dashboard-karyawan" id="dashboard-karyawan">
-            <div class="dashboard-grid">
-                <!-- Status Karyawan -->
-                <div class="dashboard-karyawan-card">
-                    <div class="card-header">
-                        <h2 class="card-title">Status Karyawan</h2>
-                        <div class="card-icon">
-                            <i class="fas fa-user-tie"></i>
-                        </div>
-                    </div>
-                    <ul class="status-list">
-                        <li class="status-item">
-                            <span class="status-label">Help</span>
-                            <span class="status-value">24</span>
-                        </li>
-                        <li class="status-item">
-                            <span class="status-label">Memle</span>
-                            <span class="status-value">18</span>
-                        </li>
-                        <li class="status-item">
-                            <span class="status-label">DataMeter</span>
-                            <span class="status-value">12</span>
-                        </li>
-                    </ul>
-                </div>
-                
-                <!-- Jenis Kelamin -->
-                <div class="dashboard-karyawan-card">
-                    <div class="card-header">
-                        <h2 class="card-title">Jenis Kelamin</h2>
-                        <div class="card-icon">
-                            <i class="fas fa-venus-mars"></i>
-                        </div>
-                    </div>
-                    <ul class="status-list">
-                        <li class="status-item">
-                            <span class="status-label">Help</span>
-                            <span class="status-value">32</span>
-                        </li>
-                        <li class="status-item">
-                            <span class="status-label">Memle</span>
-                            <span class="status-value">28</span>
-                        </li>
-                        <li class="status-item">
-                            <span class="status-label">DataMeter</span>
-                            <span class="status-value">15</span>
-                        </li>
-                    </ul>
-                </div>
-                
-                <!-- Karyawan Kemrak -->
-                <div class="dashboard-karyawan-card">
-                    <div class="card-header">
-                        <h2 class="card-title">Karyawan Kemrak</h2>
-                        <div class="card-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                    </div>
-                    <ul class="status-list">
-                        <li class="status-item">
-                            <span class="status-label">Help</span>
-                            <span class="status-value">42</span>
-                        </li>
-                        <li class="status-item">
-                            <span class="status-label">Memle</span>
-                            <span class="status-value">35</span>
-                        </li>
-                        <li class="status-item">
-                            <span class="status-label">DataMeter</span>
-                            <span class="status-value">22</span>
-                        </li>
-                    </ul>
-                </div>
-                
-                <!-- Land Lab Perinokan -->
-                <div class="dashboard-karyawan-card">
-                    <div class="card-header">
-                        <h2 class="card-title">Land Lab Perinokan</h2>
-                        <div class="card-icon">
-                            <i class="fas fa-flask"></i>
-                        </div>
-                    </div>
-                    <ul class="status-list">
-                        <li class="status-item">
-                            <span class="status-label">Help</span>
-                            <span class="status-value">16</span>
-                        </li>
-                        <li class="status-item">
-                            <span class="status-label">Memle</span>
-                            <span class="status-value">12</span>
-                        </li>
-                        <li class="status-item">
-                            <span class="status-label">DataMeter</span>
-                            <span class="status-value">8</span>
-                        </li>
-                    </ul>
-                </div>
-                
-                <!-- Pendidikan Karyawan -->
-                <div class="dashboard-karyawan-card">
-                    <div class="card-header">
-                        <h2 class="card-title">Pendidikan Karyawan</h2>
-                        <div class="card-icon">
-                            <i class="fas fa-graduation-cap"></i>
-                        </div>
-                    </div>
-                    <ul class="status-list">
-                        <li class="status-item">
-                            <span class="status-label">Help</span>
-                            <span class="status-value">20</span>
-                        </li>
-                        <li class="status-item">
-                            <span class="status-label">Memle</span>
-                            <span class="status-value">18</span>
-                        </li>
-                        <li class="status-item">
-                            <span class="status-label">DataMeter</span>
-                            <span class="status-value">14</span>
-                        </li>
-                    </ul>
-                </div>
-                
-                <!-- Karyawan Kontraik -->
-                <div class="dashboard-karyawan-card">
-                    <div class="card-header">
-                        <h2 class="card-title">Karyawan Kontraik</h2>
-                        <div class="card-icon">
-                            <i class="fas fa-file-contract"></i>
-                        </div>
-                    </div>
-                    <ul class="status-list">
-                        <li class="status-item">
-                            <span class="status-label">Help</span>
-                            <span class="status-value">30</span>
-                        </li>
-                        <li class="status-item">
-                            <span class="status-label">Memle</span>
-                            <span class="status-value">25</span>
-                        </li>
-                        <li class="status-item">
-                            <span class="status-label">DataMeter</span>
-                            <span class="status-value">18</span>
-                        </li>
-                    </ul>
-                </div>
-                
-                <!-- Qurasunding -->
-                <div class="dashboard-karyawan-card">
-                    <div class="card-header">
-                        <h2 class="card-title">Qurasunding</h2>
-                        <div class="card-icon">
-                            <i class="fas fa-comments"></i>
-                        </div>
-                    </div>
-                    <ul class="status-list">
-                        <li class="status-item">
-                            <span class="status-label">Help</span>
-                            <span class="status-value">15</span>
-                        </li>
-                        <li class="status-item">
-                            <span class="status-label">Memle</span>
-                            <span class="status-value">12</span>
-                        </li>
-                        <li class="status-item">
-                            <span class="status-label">DataMeter</span>
-                            <span class="status-value">9</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Bottom Navigation Bar -->
-    <nav class="bottom-navbar">
-        <div class="nav-container">
-            <div class="nav-item active" data-target="presensi">
-                <div class="nav-icon">
-                    <i class="fas fa-home"></i>
-                </div>
-                <span class="nav-text">Dashboard</span>
-            </div>
-            
-            <div class="nav-item" data-target="karyawan">
-                <div class="nav-icon">
-                    <i class="fas fa-chart-bar"></i>
-                </div>
-                <span class="nav-text">Data Karyawan</span>
-            </div>
-            
-            <div class="nav-item" data-target="absen-masuk">
-                <div class="nav-icon">
-                    <i class="fas fa-sign-in-alt"></i>
-                </div>
-                <span class="nav-text">Absen Masuk</span>
-            </div>
-            
-            <div class="nav-item" data-target="absen-keluar">
-                <div class="nav-icon">
-                    <i class="fas fa-sign-out-alt"></i>
-                </div>
-                <span class="nav-text">Absen Keluar</span>
-            </div>
-            
-            <div class="nav-item" data-target="profil">
-                <div class="nav-icon">
-                    <i class="fas fa-user-circle"></i>
-                </div>
-                <span class="nav-text">Profil</span>
-            </div>
-        </div>
-    </nav>
-    
-    <!-- Toast Notification -->
-    <div class="toast" id="toast"></div>
 
-    <script>
-        // Fungsi untuk navigasi
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.addEventListener('click', function() {
-                // Hapus kelas aktif dari semua item
-                document.querySelectorAll('.nav-item').forEach(nav => {
-                    nav.classList.remove('active');
-                });
-                
-                // Tambahkan kelas aktif ke item yang diklik
-                this.classList.add('active');
-                
-                // Tampilkan section yang sesuai
-                const target = this.getAttribute('data-target');
-                
-                if (target === 'presensi') {
-                    document.getElementById('dashboard-presensi').style.display = 'grid';
-                    document.getElementById('today-status').style.display = 'block';
-                    document.getElementById('dashboard-karyawan').style.display = 'none';
-                    document.querySelector('.header h1').textContent = 'Sistem Presensi PPNPN';
-                    document.querySelector('.header p').textContent = 'Pantau kehadiran Anda dengan mudah dan efisien';
-                } else if (target === 'karyawan') {
-                    document.getElementById('dashboard-presensi').style.display = 'none';
-                    document.getElementById('today-status').style.display = 'none';
-                    document.getElementById('dashboard-karyawan').style.display = 'block';
-                    document.querySelector('.header h1').textContent = 'Dashboard Karyawan';
-                    document.querySelector('.header p').textContent = 'Monitor data dan statistik karyawan dengan mudah';
-                } else {
-                    showToast(`Membuka ${target.replace('-', ' ')}`);
-                }
-            });
-        });
-        
-        // Fungsi untuk menampilkan toast notifikasi
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.classList.add('active');
-            
-            setTimeout(() => {
-                toast.classList.remove('active');
-            }, 3000);
-        }
-        
-        // Inisialisasi data dummy untuk dashboard
-        window.addEventListener('load', () => {
-            // Cek apakah sudah absen hari ini
-            const now = new Date();
-            const hours = now.getHours();
-            const minutes = now.getMinutes();
-            
-            const todayStatus = document.getElementById('today-status');
-            if (hours < 12) {
-                todayStatus.innerHTML = `
-                    <h3>Status Presensi Hari Ini</h3>
-                    <p>Anda sudah melakukan presensi masuk pada pukul ${hours}:${minutes < 10 ? '0' + minutes : minutes}</p>
-                `;
-            } else {
-                todayStatus.innerHTML = `
-                    <h3>Status Presensi Hari Ini</h3>
-                    <p>Anda sudah melakukan presensi keluar pada pukul ${hours}:${minutes < 10 ? '0' + minutes : minutes}</p>
-                `;
-            }
-            
-            // Animasi untuk nilai statistik
-            function animateValue(element, start, end, duration) {
-                let startTimestamp = null;
-                const step = (timestamp) => {
-                    if (!startTimestamp) startTimestamp = timestamp;
-                    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-                    element.innerHTML = Math.floor(progress * (end - start) + start);
-                    if (progress < 1) {
-                        window.requestAnimationFrame(step);
-                    }
-                };
-                window.requestAnimationFrame(step);
-            }
-            
-            // Jalankan animasi setelah halaman dimuat
-            document.querySelectorAll('.status-value').forEach((element, index) => {
-                const value = parseInt(element.textContent);
-                element.textContent = "0";
-                setTimeout(() => {
-                    animateValue(element, 0, value, 1000);
-                }, 300 + (index * 100));
-            });
-        });
-    </script>
+  <div class="header">DASHBOARD PPNPN</div>
+
+  <div class="card">
+    <p>On Time</p>
+    <h2>0</h2>
+    <p>Dari 30</p>
+  </div>
+
+  <div class="row">
+    <div class="small-card">
+      Terlambat <br><h2>1</h2>
+    </div>
+    <div class="small-card">
+      Alpa <br><h2>0</h2>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="small-card">Kosong</div>
+    <div class="small-card">Kosong</div>
+  </div>
+
+  <div class="bottom-nav">
+    <div><i class="fa fa-home"></i>Home</div>
+    <div><i class="fa fa-sign-in-alt"></i>Masuk</div>
+    <div><i class="fa fa-sign-out-alt"></i>Keluar</div>
+    <div><i class="fa fa-user"></i>Profil</div>
+  </div>
+
 </body>
 </html>
