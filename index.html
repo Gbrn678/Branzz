@@ -9,78 +9,119 @@
     body {
       margin: 0;
       padding: 0;
-      font-family: Arial, sans-serif;
-      background: #043a47;
-      color: #c3ff77;
+      font-family: "Segoe UI", sans-serif;
+      background: linear-gradient(135deg, #003844, #005f73);
+      color: #fff;
       text-align: center;
     }
 
+    /* Header */
     .header {
-      background: #2041ff;
+      background: #0a9396;
       padding: 15px;
-      font-size: 20px;
+      font-size: 22px;
       font-weight: bold;
       border-radius: 15px;
       margin: 15px;
+      color: #e9f5db;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
     }
 
+    /* Kartu besar */
     .card {
-      background: #2041ff;
+      background: #005f73;
       margin: 15px;
-      padding: 20px;
-      border-radius: 15px;
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+    }
+
+    .card p {
+      margin: 5px 0;
+      font-size: 16px;
+      color: #cce3de;
     }
 
     .card h2 {
       margin: 0;
-      font-size: 40px;
+      font-size: 42px;
+      color: #ffdd00;
     }
 
+    /* Kotak kecil */
     .row {
       display: flex;
       justify-content: center;
       margin: 10px;
-      gap: 10px;
+      gap: 12px;
     }
 
     .small-card {
       flex: 1;
-      background: #d671ff;
-      padding: 20px;
-      border-radius: 10px;
+      background: #9b5de5;
+      padding: 18px;
+      border-radius: 15px;
       font-size: 18px;
       font-weight: bold;
+      color: #fff;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: transform 0.2s ease;
     }
 
+    .small-card:hover {
+      transform: scale(1.05);
+      background: #f15bb5;
+    }
+
+    .small-card h2 {
+      margin: 8px 0 0;
+      font-size: 28px;
+      color: #fffd82;
+    }
+
+    /* Bottom navigation */
     .bottom-nav {
       display: flex;
       justify-content: space-around;
-      background: #2041ff;
-      padding: 10px;
+      background: #0a9396;
+      padding: 12px 0;
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
-      border-top-left-radius: 15px;
-      border-top-right-radius: 15px;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+      box-shadow: 0 -4px 12px rgba(0,0,0,0.25);
     }
 
     .bottom-nav div {
       color: #fff;
-      font-size: 20px;
+      font-size: 14px;
       text-align: center;
+      flex: 1;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+
+    .bottom-nav div.active {
+      color: #ffdd00;
     }
 
     .bottom-nav i {
       display: block;
-      font-size: 25px;
+      font-size: 22px;
       margin-bottom: 5px;
+    }
+
+    /* Spasi bawah agar tidak ketutup nav */
+    .spacer {
+      height: 70px;
     }
   </style>
 </head>
 <body>
 
-  <div class="header">DASHBOARD PPNPN</div>
+  <div class="header">📊 DASHBOARD PPNPN</div>
 
   <div class="card">
     <p>On Time</p>
@@ -90,10 +131,10 @@
 
   <div class="row">
     <div class="small-card">
-      Terlambat <br><h2>1</h2>
+      Terlambat <h2>1</h2>
     </div>
     <div class="small-card">
-      Alpa <br><h2>0</h2>
+      Alpa <h2>0</h2>
     </div>
   </div>
 
@@ -102,8 +143,10 @@
     <div class="small-card">Kosong</div>
   </div>
 
+  <div class="spacer"></div>
+
   <div class="bottom-nav">
-    <div><i class="fa fa-home"></i>Home</div>
+    <div class="active"><i class="fa fa-home"></i>Home</div>
     <div><i class="fa fa-sign-in-alt"></i>Masuk</div>
     <div><i class="fa fa-sign-out-alt"></i>Keluar</div>
     <div><i class="fa fa-user"></i>Profil</div>
